@@ -6,21 +6,11 @@
 
 以下四张均从当前 `RoadRash.bda` 与修正后的 `Rash.pak` 在 BBK 9588 模拟器 v0.1.5 中实际截取，尺寸为 320×240。采集方式和校验和见 [截图来源](screenshots/README.md)。
 
-主菜单：
-
-![中文主菜单与原版背景](screenshots/01-title.png)
-
-关卡与摩托车选择：
-
-![关卡与摩托车选择](screenshots/02-course-selection.png)
-
-赛道驾驶：
-
-![赛道驾驶与虚拟按键](screenshots/03-race.png)
-
-比赛暂停：
-
-![比赛暂停界面](screenshots/04-pause.png)
+| 主菜单 | 关卡与摩托车选择 |
+| :---: | :---: |
+| ![中文主菜单与原版背景](screenshots/01-title.png) | ![关卡与摩托车选择](screenshots/02-course-selection.png) |
+| 赛道驾驶 | 比赛暂停 |
+| ![赛道驾驶与虚拟按键](screenshots/03-race.png) | ![比赛暂停界面](screenshots/04-pause.png) |
 
 ## 快速开始
 
