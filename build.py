@@ -27,6 +27,7 @@ def main() -> None:
     env = os.environ.copy()
     env["PYTHONPATH"] = str(SDK) + os.pathsep + env.get("PYTHONPATH", "")
     env["BDA_SDK_INCLUDE"] = str(SDK / "sdk" / "include")
+    env["PYTHONIOENCODING"] = "utf-8"
     subprocess.run([sys.executable, "prepare_upstream.py"],
                    cwd=ROOT, check=True)
     output = ROOT / "RoadRash.bda"
