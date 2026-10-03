@@ -18,9 +18,9 @@ python build.py
 python test_host.py
 ```
 
-`build.py` 自动下载固定版本的 [3DO 逆向重建项目](https://github.com/trapexit/3do-decomp-road-rash)到忽略的 `local-data/`，仅取四个赛道遍历源文件参与本机构建。它不会下载游戏镜像或资源。已有工具链可通过 `python build.py --prefix <工具链安装目录>` 指定。资源包脚本读取 `local-data/3do-eu-extracted/Rash/` 下合法取得的原版资源：`python build_resource_pack.py`；本地整包可再运行 `python package_game.py`。公开 CI 和 Release 只构建 BDA，不上传 `Rash.pak`。
+游戏 C 源码集中在 `src/`，主机测试在 `tests/`，资源处理脚本在 `tools/`；根目录只保留构建和测试入口。`build.py` 从固定版本的 [3DO 逆向重建项目](https://github.com/trapexit/3do-decomp-road-rash)下载四个赛道遍历源文件到忽略的 `local-data/`，逐一校验 SHA-256 后参与本机构建。它不会下载游戏镜像或资源。已有工具链可通过 `python build.py --prefix <工具链安装目录>` 指定。资源包脚本读取 `local-data/3do-eu-extracted/Rash/` 下合法取得的原版资源：`python tools/build_resource_pack.py`；本地整包可再运行 `python tools/package_game.py`。公开 CI 和 Release 只构建 BDA，不上传 `Rash.pak`。
 
-中文字形已随源码固定为 `road_ui_font.h`。需要重新生成字形时，安装 Pillow 和 Noto Sans SC 可变字体，再运行 `python generate_ui_font.py --font <字体文件路径>`。
+中文字形已随源码固定为 `src/road_ui_font.h`。需要重新生成字形时，安装 Pillow 和 Noto Sans SC 可变字体，再运行 `python tools/generate_ui_font.py --font <字体文件路径>`。
 
 ## 截图
 

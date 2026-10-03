@@ -28,14 +28,14 @@ def main() -> None:
     env["PYTHONPATH"] = str(SDK) + os.pathsep + env.get("PYTHONPATH", "")
     env["BDA_SDK_INCLUDE"] = str(SDK / "sdk" / "include")
     env["PYTHONIOENCODING"] = "utf-8"
-    subprocess.run([sys.executable, "prepare_upstream.py"],
+    subprocess.run([sys.executable, "tools/prepare_upstream.py"],
                    cwd=ROOT, check=True)
     output = ROOT / "RoadRash.bda"
     command = [
-        sys.executable, "-m", "bda_packer", "runtime_only_bda.c",
+        sys.executable, "-m", "bda_packer", "src/runtime_only_bda.c",
         "--title", "暴力摩托", "--category", "4",
         "--icon-png", "assets/road_rash_3do_icon.png",
-        "-I", str(ROOT), "-o", str(output),
+        "-I", str(ROOT), "-I", str(ROOT / "src"), "-o", str(output),
     ]
     if args.prefix:
         prefix = args.prefix.resolve() / "bin" / "mipsel-none-elf-"

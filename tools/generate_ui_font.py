@@ -6,7 +6,7 @@ import argparse
 from PIL import Image, ImageDraw, ImageFont
 
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parent.parent
 FONT_PATH: Path
 TEXT = (
     "主菜单关卡选择设置关于返回键退出关于暴力摩托"
@@ -78,7 +78,7 @@ def main() -> None:
     lines += generate_table(large, 20, 22, 24, -3,
                             "road_ui_large_glyph", "g_road_ui_large_glyphs",
                             "ROAD_UI_LARGE_GLYPH_COUNT")
-    (ROOT / "road_ui_font.h").write_text("\n".join(lines) + "\n",
+    (ROOT / "src" / "road_ui_font.h").write_text("\n".join(lines) + "\n",
                                            encoding="ascii")
     print(f"Generated {len(small)} small and {len(large)} large menu glyphs")
 

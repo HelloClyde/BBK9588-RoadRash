@@ -12,7 +12,7 @@ from pathlib import Path
 import urllib.request
 
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parent.parent
 PIN = "97af68f3aabd71b173d8e5b8fed1e03ef106100d"
 BASE = f"https://raw.githubusercontent.com/trapexit/3do-decomp-road-rash/{PIN}/src"
 FILES = {

@@ -12,7 +12,7 @@ from extract_course import RECORD_BYTES, SOURCE, resource, trace_primary_route, 
 from extract_scenery import FAMILY_IDS
 
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parent.parent
 OUTPUT = ROOT / "local-data/road_object_data.h"
 ROAD_OBJECT_FAMILIES = FAMILY_IDS
 

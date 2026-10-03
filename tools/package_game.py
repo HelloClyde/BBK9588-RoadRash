@@ -9,7 +9,7 @@ import tarfile
 import zipfile
 
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parent.parent
 BDA = ROOT / "RoadRash.bda"
 PACK = ROOT / "Rash.pak"
 SOURCE = ROOT / "local-data" / "3do-eu-extracted" / "Rash"

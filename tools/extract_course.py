@@ -12,7 +12,7 @@ from pathlib import Path
 import struct
 
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parent.parent
 SOURCE = ROOT / "local-data/3do-eu-extracted/Rash/Highway/Highwayopt.rsrc"
 OUTPUT = ROOT / "local-data/road_course_data.h"
 MANIFEST = ROOT / "local-data/highway_route.json"

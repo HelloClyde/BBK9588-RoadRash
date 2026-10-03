@@ -14,7 +14,7 @@ from extract_course import RECORD_BYTES, SOURCE as COURSE_SOURCE, resource, trac
 from extract_scenery import SOURCE as FAMILY_SOURCE, family, frame_from_table, rows
 
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parent.parent
 OUTPUT = ROOT / "local-data/road_static_data.h"
 FAMILY_ID = 148
 STATIC_FAMILIES = (148, 149)

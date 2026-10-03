@@ -9,7 +9,7 @@ from pathlib import Path
 import struct
 
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parent.parent
 SOURCE = ROOT / "local-data/3do-eu-extracted/Rash/rashOpt.rsrc"
 OUTPUT = ROOT / "local-data/road_bike_data.h"
 EXTRA_FRAMES = (1, 2, 5, 6, 13, 14, 18, 19, 319,

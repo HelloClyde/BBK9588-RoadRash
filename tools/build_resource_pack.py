@@ -9,7 +9,7 @@ import struct
 from package_game import SOURCE, source_files
 
 
-PACK = Path(__file__).resolve().parent / "Rash.pak"
+PACK = Path(__file__).resolve().parent.parent / "Rash.pak"
 TEMP = PACK.with_suffix(".pak.tmp")
 HEADER = struct.Struct("<4sIII")
 ENTRY = struct.Struct("<48sII")

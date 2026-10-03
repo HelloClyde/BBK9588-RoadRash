@@ -7,7 +7,7 @@ from pathlib import Path
 import shutil
 
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parent.parent
 SOURCE = ROOT / "local-data" / "3do-eu-extracted" / "Rash"
 
 

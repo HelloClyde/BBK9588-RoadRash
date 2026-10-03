@@ -9,7 +9,7 @@ from pathlib import Path
 import struct
 
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parent.parent
 SOURCE = ROOT / "local-data/3do-eu-extracted/Rash/Families.RSRC"
 OUTPUT = ROOT / "local-data/road_scenery_data.h"
 FAMILY_IDS = (101, 102, 148, 149, 169, 171, 174, 175, 240)
