@@ -39,6 +39,6 @@ python test_host.py
 
 ## 感谢与许可
 
-移植作者：HelloClyde。赞助：唔识游水的鱼??。步步高电子词典游戏群（830340878）。感谢 [3DO Road Rash 逆向重建项目](https://github.com/trapexit/3do-decomp-road-rash)、BBK SDK 贡献者以及提供测试反馈的玩家。
+感谢 [3DO Road Rash 逆向重建项目](https://github.com/trapexit/3do-decomp-road-rash)。
 
 本仓库自编移植代码按 [MIT](LICENSE) 授权。SDK、构建时获取的上游代码、字体、原版图标及游戏资源各自遵循其权利状态；本仓库的 MIT 许可不覆盖它们。具体来源与未明确的授权见 [THIRD_PARTY.md](THIRD_PARTY.md)。
