@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+import argparse
 from pathlib import Path
 import struct
 
@@ -23,16 +24,19 @@ def digest(path: Path) -> bytes:
     return sha.digest()
 
 
-def build_pack(files: list[Path] | None = None) -> Path:
+def build_pack(files: list[Path] | None = None,
+               source: Path = SOURCE) -> Path:
     if files is None:
-        files = source_files()
+        files = source_files(source)
+    if not files or files[0].relative_to(source).as_posix() != "rashOpt.rsrc":
+        raise SystemExit("rashOpt.rsrc must be the first pack entry")
     if TEMP.exists():
         raise SystemExit(f"Refusing to overwrite unfinished pack: {TEMP}")
     data_start = HEADER.size + len(files) * ENTRY.size
     records = []
     cursor = data_start
     for path in files:
-        name = path.relative_to(SOURCE).as_posix().encode("ascii")
+        name = path.relative_to(source).as_posix().encode("ascii")
         size = path.stat().st_size
         if len(name) >= 48 or cursor + size > 0x7FFFFFFF:
             raise SystemExit(f"Pack entry too large: {path}")
@@ -84,4 +88,8 @@ def build_pack(files: list[Path] | None = None) -> Path:
 
 
 if __name__ == "__main__":
-    build_pack()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--source", type=Path, default=SOURCE,
+                        help="path to a legally obtained 3DO Rash resource tree")
+    args = parser.parse_args()
+    build_pack(source=args.source.resolve())

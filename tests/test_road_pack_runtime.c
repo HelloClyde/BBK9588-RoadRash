@@ -24,6 +24,7 @@ int main(int argc, char **argv)
     assert(size > 0 && rr_pack_open(&pack, read_at, packed,
                                    (rr_u32)size));
     assert(pack.count == 32u);
+    assert(strcmp(pack.entries[0].name, "rashOpt.rsrc") == 0);
     assert(rr_pack_find(&pack, "rashOpt.rsrc") >= 0);
     assert(rr_pack_find(&pack,
         "Streams\\bgaudio\\SG.RustyCage_sw22.stream") >= 0);

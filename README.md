@@ -1,14 +1,42 @@
 # 暴力摩托 · BBK 9588 移植版
 
-面向步步高 9588 的《Road Rash》3DO 版移植。一个 `RoadRash.bda` 提供中文菜单、五条赛道、对手与车辆、碰撞、存档和声音；运行时读取用户自行准备的 3DO 游戏资源。当前为预览版，画面和物理仍有适配实现，不能视为原版的逐帧复刻。
+3DO 版《Road Rash》在步步高 9588 上的预览移植。
+
+## 截图
+
+以下四张均从当前 `RoadRash.bda` 与修正后的 `Rash.pak` 在 BBK 9588 模拟器 v0.1.5 中实际截取，尺寸为 320×240。采集方式和校验和见 [截图来源](screenshots/README.md)。
+
+主菜单：
+
+![中文主菜单与原版背景](screenshots/01-title.png)
+
+关卡与摩托车选择：
+
+![关卡与摩托车选择](screenshots/02-course-selection.png)
+
+赛道驾驶：
+
+![赛道驾驶与虚拟按键](screenshots/03-race.png)
+
+比赛暂停：
+
+![比赛暂停界面](screenshots/04-pause.png)
 
 ## 快速开始
 
-从 [Releases](https://github.com/HelloClyde/BBK9588-RoadRash/releases) 下载 `RoadRash.bda`，按 9588 的 BDA 安装方式安装。游戏数据不随公开版本分发：从自己持有的 3DO 游戏资源生成 `Rash.pak`，放在 `B:\应用\数据\游戏\Rash\Rash.pak`；没有 B: 盘时放在 `A:\应用\数据\游戏\Rash\Rash.pak`。旧版散装文件也可读取。无资源包无法进入赛道。
+1. 从 [Releases](https://github.com/HelloClyde/BBK9588-RoadRash/releases) 下载 `RoadRash.bda`，按 9588 的常规 BDA 安装方式安装。
+2. 从自己合法持有的欧版 3DO 游戏资源生成单文件包：`python tools/build_resource_pack.py --source <原版Rash目录>`。当前已验证资源包的 SHA-256 为 `946a4c2fe693b9011f3de04ec95a07b8dc368fa44d5a4cc1f8ea9cfe61ad2957`，包含标题背景、五条赛道、车辆与对象素材、音效和一首音乐，不含视频。
+3. 把 `Rash.pak` 复制到 `B:\应用\数据\游戏\Rash\Rash.pak`；没有 B: 盘时用 `A:\应用\数据\游戏\Rash\Rash.pak`。只复制这一份资源文件，不要放到盘根目录。已有原版资源的开发者也可运行 `python tools/package_game.py --source <原版Rash目录>`，在本机生成包含 BDA 和资源包的 ZIP。原版游戏资源不随公开仓库或 Release 分发。
 
-横握时，在中文菜单用实体左/右键选择，确认键进入；关卡页用左/右键选赛道、上/下键换摩托车。比赛中实体上/下键转向，屏幕上的 GAS 切换油门、HIT 甩鞭、KICK 踢腿；实体方向键与 HIT 的组合操作保留。确认键刹车，返回键暂停。设置中可关闭音乐，音效仍会播放。游戏诊断日志写在资源目录下的 `RRDEBUG.LOG`。
+横握时，中文菜单用实体左/右键选择，确认键进入；选关页用左/右键选赛道、上/下键换摩托车。比赛中实体上/下键转向，屏幕 GAS 切换油门、HIT 甩鞭、KICK 踢腿；确认键刹车，返回键暂停。设置页可关闭音乐而保留音效。
 
-开发者在 Windows PowerShell 中构建：
+若标题背景变成黑底，或赛道只有色块而没有摩托车与路面纹理，先核对资源包路径和 SHA-256。诊断日志位于资源目录的 `RRDEBUG.LOG`，创建失败时尝试 `A:\RRDEBUG.LOG`；其中 `PACK_OPEN`、`MENU_ASSET_DONE`、`BIKE_FRAMES_DONE` 和 `ROAD_TEX_DONE` 应显示资源已加载。旧版打包脚本把 `rashOpt.rsrc` 放在包尾，在模拟器中会导致后两项加载失败；请重新生成 `Rash.pak`。
+
+## 项目介绍（开发者）
+
+一个 `RoadRash.bda` 提供中文菜单、五条赛道、对手与车辆、碰撞、存档和声音。C 游戏源码在 [`src/`](src/)，主机测试在 [`tests/`](tests/)，资源处理脚本在 [`tools/`](tools/)；根目录保留构建和测试入口。移植仍采用部分适配渲染、物理和 AI，尚不是原版逐帧复刻；当前标签 BDA 尚需 9588 实机复测。
+
+在 Windows PowerShell 中构建与验证：
 
 ```powershell
 git clone --recurse-submodules https://github.com/HelloClyde/BBK9588-RoadRash.git
@@ -18,27 +46,11 @@ python build.py
 python test_host.py
 ```
 
-游戏 C 源码集中在 `src/`，主机测试在 `tests/`，资源处理脚本在 `tools/`；根目录只保留构建和测试入口。`build.py` 从固定版本的 [3DO 逆向重建项目](https://github.com/trapexit/3do-decomp-road-rash)下载四个赛道遍历源文件到忽略的 `local-data/`，逐一校验 SHA-256 后参与本机构建。它不会下载游戏镜像或资源。已有工具链可通过 `python build.py --prefix <工具链安装目录>` 指定。资源包脚本读取 `local-data/3do-eu-extracted/Rash/` 下合法取得的原版资源：`python tools/build_resource_pack.py`；本地整包可再运行 `python tools/package_game.py`。公开 CI 和 Release 只构建 BDA，不上传 `Rash.pak`。
+`build.py` 从固定提交下载四个上游赛道遍历文件，逐一校验 SHA-256 后放入忽略的 `local-data/`。它不会下载游戏镜像。已有工具链可通过 `python build.py --prefix <工具链安装目录>` 指定。中文字形固定在 `src/road_ui_font.h`；需重生时安装 Pillow 和 Noto Sans SC 可变字体，运行 `python tools/generate_ui_font.py --font <字体文件路径>`。
 
-中文字形已随源码固定为 `src/road_ui_font.h`。需要重新生成字形时，安装 Pillow 和 Noto Sans SC 可变字体，再运行 `python tools/generate_ui_font.py --font <字体文件路径>`。
+## 第三方依赖与开源协议
 
-## 截图
-
-以下为项目早期版本在模拟器中的实际截图。它们展示移植画面，菜单细节与当前版本可能不同；当前发布版仍需 9588 实机复测。
-
-![模拟器中文主菜单](screenshots/title-emulator.png)
-
-![模拟器赛道画面](screenshots/race-emulator.png)
-
-## 依赖与验证
-
-- 运行：BBK 9588、`RoadRash.bda` 和用户自行准备的 3DO 游戏资源包。
-- 构建：Python 3、Git、Windows PowerShell、[bbk9588-bda-sdk](https://github.com/HelloClyde/bbk9588-bda-sdk) 子模块，固定提交 `870470ce09a5b33ae9b2d0c1b8e40c0435751a98`；SDK 安装脚本提供 MIPS GCC 15.2.0。主机测试另需本机 GCC。
-- 上游赛道遍历代码固定在 `97af68f3aabd71b173d8e5b8fed1e03ef106100d`，仅在构建时获取。详见 [第三方来源](THIRD_PARTY.md)。
-- CI 执行无资源主机测试、BDA 构建和格式校验。此前版本有模拟器画面和 9588 真机反馈；公开标签构建的确切 BDA 尚无实机验收记录。CI 通过不代表实机无故障。
-
-## 感谢与许可
-
-感谢 [3DO Road Rash 逆向重建项目](https://github.com/trapexit/3do-decomp-road-rash)。
-
-本仓库自编移植代码按 [MIT](LICENSE) 授权。SDK、构建时获取的上游代码、字体、原版图标及游戏资源各自遵循其权利状态；本仓库的 MIT 许可不覆盖它们。具体来源与未明确的授权见 [THIRD_PARTY.md](THIRD_PARTY.md)。
+- 运行目标：BBK 9588、BDA 程序及用户自备的 3DO 游戏资源。
+- 构建依赖：Python 3、Git、Windows PowerShell、[bbk9588-bda-sdk](https://github.com/HelloClyde/bbk9588-bda-sdk) 子模块（固定提交 `870470ce09a5b33ae9b2d0c1b8e40c0435751a98`）及其 MIPS GCC 15.2.0 工具链。主机测试需要本机 GCC。
+- 上游赛道遍历文件来自 [3DO Road Rash 逆向重建项目](https://github.com/trapexit/3do-decomp-road-rash)，固定提交 `97af68f3aabd71b173d8e5b8fed1e03ef106100d`。感谢该项目；上游未提供明确的再分发许可证。
+- 自编移植代码按 [MIT](LICENSE) 授权。SDK、上游代码、Noto 字形、原版图标、截图与游戏资源不由此 MIT 许可证覆盖；来源和具体权利状态见 [THIRD_PARTY.md](THIRD_PARTY.md)。
